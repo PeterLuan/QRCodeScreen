@@ -7,29 +7,63 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  Dimensions,
   StyleSheet,
   Text,
-  View
+  TouchableHighlight,
+  View,
+  Alert,
+  TouchableOpacity,
+  InteractionManager,
+  Navigator,
 } from 'react-native';
+
+var QRCodeScreen = require('./QRCodeScreen');
+
+var Entry = React.createClass({
+  render: function() {
+    return (
+      <View style={styles.container}>
+        <TouchableHighlight onPress={()=>this.props.navigator.push({name:"QRCodeScreen"})} >
+          <Text style={{fontWeight: 'bold', fontSize: 25}}> Scan QR  </Text>
+        </TouchableHighlight>
+      </View>
+    );
+  }
+})
+
+var RouteMapper = function(route, navigationOperations) {
+  if (route.name === 'Entry'){
+    return (<Entry {...route.params} navigator={navigationOperations} />);
+  }
+  else if (route.name === 'QRCodeScreen') {
+    return (<QRCodeScreen {...route.params} navigator={navigationOperations}/>);
+  }
+}
 
 export default class cameraTest extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Double tap R on your keyboard to reload,{'\n'}
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
+      <Navigator
+        initialRoute = {{name: 'Entry'}}
+        renderScene = {RouteMapper}
+        configureScene={(route, routeStack) => Navigator.SceneConfigs.FadeAndroid}
+      />
     );
-  }
+  };
 }
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+  },
+  contentContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+});
 
 const styles = StyleSheet.create({
   container: {
