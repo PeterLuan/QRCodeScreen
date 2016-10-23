@@ -24,7 +24,7 @@ var Entry = React.createClass({
   render: function() {
     return (
       <View style={styles.container}>
-        <TouchableHighlight onPress={()=>this.props.navigator.push({name:"QRCodeScreen"})} >
+        <TouchableHighlight onPress={()=>this.props.navigator.replace({name:"QRCodeScreen"})} >
           <Text style={{fontWeight: 'bold', fontSize: 25}}> Scan QR  </Text>
         </TouchableHighlight>
       </View>
@@ -44,11 +44,7 @@ var RouteMapper = function(route, navigationOperations) {
 export default class cameraTest extends Component {
   render() {
     return (
-      <Navigator
-        initialRoute = {{name: 'Entry'}}
-        renderScene = {RouteMapper}
-        configureScene={(route, routeStack) => Navigator.SceneConfigs.FadeAndroid}
-      />
+      <QRCodeScreen />
     );
   };
 }
